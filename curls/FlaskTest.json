@@ -1,0 +1,146 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "f9421ba0-5999-4007-80e0-e38728e914b7",
+        "name": "CURLS"
+      },
+      "children": [
+        {
+          "entity": {
+            "bodyEvaluationDisabled": true,
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\"animal\": \"cow\",\n \"sound\": \"mooo\",\n \"count\": 3}\n"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:80",
+              "path": "/"
+            },
+            "id": "0811570f-9396-46e2-aa9d-986c4b6ccc5a",
+            "name": "AndersenCowTest",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "bodyEvaluationDisabled": true,
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\"animal\": \"elephant\",\n \"sound\": \"whoooaaa\",\n \"count\": 1000000}\n"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:80",
+              "path": "/"
+            },
+            "id": "e528a50c-d39f-4d64-ab52-8d7ea7eb543b",
+            "name": "AndersenelefhTest",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "bodyEvaluationDisabled": true,
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\"animal\": \"cow\",\n \"sound\": \"mooo\",\n \"count\": 3}\n"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "animal",
+                    "value": "cow"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "sound",
+                    "value": "mooo"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "count",
+                    "value": "1"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:80",
+              "path": "/"
+            },
+            "id": "515ab3df-7eae-4881-90b0-1129b6451368",
+            "name": "Copy of AndersenCowTestGet",
+            "headers": []
+          }
+        }
+      ]
+    }
+  ]
+}
