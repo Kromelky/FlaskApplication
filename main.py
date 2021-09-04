@@ -71,12 +71,12 @@ def runHttps():
     cert = cert_ditr + os.path.sep + "cert.pem"
     print(f"Cert path: {cert}");
     print(f"Cert path: {priv_key}");
-    app.run(port=433, ssl_context=(cert, priv_key), threaded=True)
+    app.run(host="0.0.0.0", port=433, ssl_context=(cert, priv_key), threaded=True)
 
 
 def runHttp():
     print("Running http")
-    app.run(port=80, threaded=True)
+    app.run(host="0.0.0.0", port=80, threaded=True)
 
 
 if __name__ == '__main__':
