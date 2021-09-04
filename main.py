@@ -80,6 +80,6 @@ def runHttp():
 if __name__ == '__main__':
     httpThread = threading.Thread(target=runHttp)
     httpThread.start()
-    time.sleep(1)
+    time.sleep(2)
     httpsThread = threading.Thread(target=runHttps)
     httpsThread.start()
