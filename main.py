@@ -6,6 +6,8 @@ import threading
 import time
 import os
 
+from emojiParser import Parser
+
 app = Flask(__name__)
 app.config.update(
     SESSION_COOKIE_SECURE=True,
@@ -25,7 +27,8 @@ def get_MainMessage(animal_name, animal_sound, animal_count):
         animal_count = abs(animal_count)
     if animal_count > 100000:
         return f"Error: too much values requested"
-    return_list = [f"{animal_name} says {animal_sound}" for _ in range(round(animal_count))]
+    emoj = ps.getEmogi(animal_name)
+    return_list = [f"{emoj} says {animal_sound}" for _ in range(round(animal_count))]
     return_list.append(get_AuthorMessage(service_name, dev_name))
     return "\n".join(return_list)
 
@@ -80,7 +83,9 @@ def runHttp():
 
 
 if __name__ == '__main__':
-
+    ps = Parser('https://emojipedia.org/nature/')
+    ps.parseDatabase()
+    ps.printEmoj(10)
     httpThread = threading.Thread(target=runHttp)
     httpThread.start()
     time.sleep(2)
