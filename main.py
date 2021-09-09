@@ -72,8 +72,8 @@ def runHttps():
     cert_ditr = os.getcwd() + os.path.sep + "cert"
     priv_key = cert_ditr + os.path.sep + "key.pem"
     cert = cert_ditr + os.path.sep + "cert.pem"
-    print(f"Cert path: {cert}");
-    print(f"Cert path: {priv_key}");
+    print(f"Cert path: {cert}")
+    print(f"Key path: {priv_key}")
     app.run(host="0.0.0.0", port=433, ssl_context=(cert, priv_key), threaded=True)
 
 
