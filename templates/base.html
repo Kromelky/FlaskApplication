@@ -1,0 +1,33 @@
+<!doctype html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+        $('form').on('submit', function (e) {
+
+          e.preventDefault();
+          $.ajax({
+            type: 'post',
+            url: 'http://{{ ip_address }}/',
+            data: $('form').serialize(),
+            success: function (response) {
+              $('#textbox').val(response)
+            }
+          });
+        });
+
+      })
+
+    </script>
+</head>
+<title>{% block title %}{% endblock %} - AwesomeZoo</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>AwesomeZoo</h1>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+   {% block content %}{% endblock %}
+</section>

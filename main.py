@@ -8,7 +8,7 @@ import os
 
 from emojiParser import Parser
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
 app.config.update(
     SESSION_COOKIE_SECURE=True,
     SESSION_COOKIE_HTTPONLY=True,
@@ -20,6 +20,7 @@ dev_repo = 'https://github.com/Kromelky'
 animal_key = 'animal'
 sound_key = 'sound'
 count_key = 'count'
+host = "0.0.0.0"
 
 
 def get_MainMessage(animal_name, animal_sound, animal_count):
@@ -31,6 +32,7 @@ def get_MainMessage(animal_name, animal_sound, animal_count):
     return_list = [f"{emoj} says {animal_sound}" for _ in range(round(animal_count))]
     return_list.append(get_AuthorMessage(service_name, dev_name))
     return "\n".join(return_list)
+
 
 def getAppName():
     return service_name;
@@ -51,7 +53,8 @@ def processRequest(req):
     if req.method == 'GET':
         attrs = req.args
     if attrs is None or len(attrs) == 0:
-        return render_template("form.html")
+        ip_address = req.remote_addr
+        return render_template("form.html", ip_address=ip_address)
     elif not (animal_key in attrs.keys() and sound_key in attrs.keys() and count_key in attrs.keys()):
         return "Error: missing required attributes"
     try:
@@ -77,12 +80,13 @@ def runHttps():
     cert = cert_ditr + os.path.sep + "cert.pem"
     print(f"Cert path: {cert}")
     print(f"Key path: {priv_key}")
-    app.run(host="0.0.0.0", port=433, ssl_context=(cert, priv_key), threaded=True)
+    app.debug = True
+    app.run(host=host, port=433, ssl_context=(cert, priv_key), threaded=True, debug=False)
 
 
 def runHttp():
     print("Running http")
-    app.run(host="0.0.0.0", port=80, threaded=True)
+    app.run(host=host, port=80, threaded=True, debug=False)
 
 
 if __name__ == '__main__':
@@ -92,5 +96,5 @@ if __name__ == '__main__':
     httpThread = threading.Thread(target=runHttp)
     httpThread.start()
     time.sleep(2)
-    httpsThread = threading.Thread(target=runHttps)
-    httpsThread.start()
+    httpThread2 = threading.Thread(target=runHttps)
+    httpThread2.start()
