@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask import request
 from OpenSSL import SSL
 import logging
@@ -8,7 +8,7 @@ import os
 
 from emojiParser import Parser
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config.update(
     SESSION_COOKIE_SECURE=True,
     SESSION_COOKIE_HTTPONLY=True,
@@ -32,6 +32,9 @@ def get_MainMessage(animal_name, animal_sound, animal_count):
     return_list.append(get_AuthorMessage(service_name, dev_name))
     return "\n".join(return_list)
 
+def getAppName():
+    return service_name;
+
 
 def get_AuthorMessage(ser_name, name):
     return f"Made with {ser_name} by {name}"
@@ -47,9 +50,9 @@ def processRequest(req):
             attrs = req.form
     if req.method == 'GET':
         attrs = req.args
-    if attrs is None:
-        return "Error: missing attribute collection"
-    if not (animal_key in attrs.keys() and sound_key in attrs.keys() and count_key in attrs.keys()):
+    if attrs is None or len(attrs) == 0:
+        return render_template("form.html")
+    elif not (animal_key in attrs.keys() and sound_key in attrs.keys() and count_key in attrs.keys()):
         return "Error: missing required attributes"
     try:
         animal_count = int(attrs[count_key])

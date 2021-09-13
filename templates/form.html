@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}How does animal sounds like?{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div id="formClass">
+      <form method="post" id="sample_form">
+        <label for="animal">Animal</label>
+        <input name="animal" id="animal" required>
+        <label for="sound">Sound</label>
+        <input type="sound" name="sound" id="sound" required>
+        <label for="Count">Count</label>
+        <input type="count" name="count" id="count" required>
+        <input class="submit" type="submit" value="Submit">
+      </form>
+
+      <textarea id="textbox"></textarea>
+  </div>
+
+
+
+{% endblock %}
