@@ -8,7 +8,7 @@
           e.preventDefault();
           $.ajax({
             type: 'post',
-            url: 'http://{{ ip_address }}/',
+            url: '{{ proto }}://{{ ip_address }}:{{ port }}/',
             data: $('form').serialize(),
             success: function (response) {
               $('#textbox').val(response)

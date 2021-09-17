@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 
 class Parser:
@@ -10,6 +11,8 @@ class Parser:
 
     def parseDatabase(self):
         page = requests.get(self.url)
+        if page.status_code != 200:
+            sys.exit(-1);
         soup = BeautifulSoup(page.text, 'lxml')
         emojis_a = soup.find('ul', class_='emoji-list')
         for emoj in emojis_a.findChildren('a', recursive=True):

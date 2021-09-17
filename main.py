@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 from flask import request
-from OpenSSL import SSL
-import logging
+import argparse
 import threading
 import time
 import os
@@ -20,7 +19,6 @@ dev_repo = 'https://github.com/Kromelky'
 animal_key = 'animal'
 sound_key = 'sound'
 count_key = 'count'
-host = "0.0.0.0"
 
 
 def get_MainMessage(animal_name, animal_sound, animal_count):
@@ -32,10 +30,6 @@ def get_MainMessage(animal_name, animal_sound, animal_count):
     return_list = [f"{emoj} says {animal_sound}" for _ in range(round(animal_count))]
     return_list.append(get_AuthorMessage(service_name, dev_name))
     return "\n".join(return_list)
-
-
-def getAppName():
-    return service_name;
 
 
 def get_AuthorMessage(ser_name, name):
@@ -54,7 +48,8 @@ def processRequest(req):
         attrs = req.args
     if attrs is None or len(attrs) == 0:
         ip_address = req.remote_addr
-        return render_template("form.html", ip_address=ip_address)
+        proto = req.scheme
+        return render_template("form.html", ip_address=ip_address, proto=proto, port=args.port)
     elif not (animal_key in attrs.keys() and sound_key in attrs.keys() and count_key in attrs.keys()):
         return "Error: missing required attributes"
     try:
@@ -63,7 +58,6 @@ def processRequest(req):
         return "ValueError: count couldn't convert to int"
     animal_name = attrs[animal_key]
     animal_sound = attrs[sound_key]
-
     response = get_MainMessage(animal_name, animal_sound, animal_count)
     return response
 
@@ -75,26 +69,36 @@ def httpRoot():
 
 def runHttps():
     print("Running https")
-    cert_ditr = os.getcwd() + os.path.sep + "cert"
-    priv_key = cert_ditr + os.path.sep + "key.pem"
-    cert = cert_ditr + os.path.sep + "cert.pem"
-    print(f"Cert path: {cert}")
-    print(f"Key path: {priv_key}")
+    print(f"Current working directory {os.getcwd()}")
+    print(f"Cert path: {args.sslcert}")
+    print(f"Key path: {args.sslkey}")
     app.debug = True
-    app.run(host=host, port=433, ssl_context=(cert, priv_key), threaded=True, debug=False)
+    app.run(host=args.host, port=args.port, ssl_context=(args.sslcert, args.sslkey), threaded=True, debug=False)
 
 
 def runHttp():
     print("Running http")
-    app.run(host=host, port=80, threaded=True, debug=False)
+    app.run(host=args.host, port=args.port, threaded=True, debug=False)
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog="AwesomeZoo Flask Application")
+    parser.add_argument('-s', '--source', help=' Change emogipedia data source. ', type=str, default='https://emojipedia.org/nature/')
+    parser.add_argument('-H', '--host', help=' Change application host ', type=str, default='0.0.0.0')
+    parser.add_argument('-p', '--port', help=' Change listening post', type=int,
+                        default=80)
+    parser.add_argument('-ssl', '--usessl', help=' Using ssl on selected port', type=bool,
+                        default=False)
+    parser.add_argument('-sk', '--sslkey', help=' Determinate relative path to SSl Key ', type=str,
+                        default="cert/key.pem")
+    parser.add_argument('-sc', '--sslcert', help=' Determinate relative path to SSl Certificate ', type=str,
+                        default='cert/cert.pem')
+    args = parser.parse_args()
     ps = Parser('https://emojipedia.org/nature/')
     ps.parseDatabase()
-    ps.printEmoj(10)
-    httpThread = threading.Thread(target=runHttp)
-    httpThread.start()
-    time.sleep(2)
-    httpThread2 = threading.Thread(target=runHttps)
-    httpThread2.start()
+    if args.usessl:
+        runHttps()
+    else:
+        runHttp()
+
+
