@@ -8,14 +8,16 @@
           e.preventDefault();
           $.ajax({
             type: 'post',
-            url: '{{ proto }}://{{ ip_address }}:{{ port }}/',
+            url: '{{ proto }}://{{ ip_address }}',
             data: $('form').serialize(),
             success: function (response) {
               $('#textbox').val(response)
             }
           });
         });
+
       })
+
     </script>
 </head>
 <title>{% block title %}{% endblock %} - AwesomeZoo</title>

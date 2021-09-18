@@ -48,7 +48,7 @@ def processRequest(req):
         attrs = req.args
     if attrs is None or len(attrs) == 0:
         proto = req.scheme
-        return render_template("form.html", ip_address=req.host, proto=proto, port=args.port)
+        return render_template("form.html", ip_address=req.host, proto=proto)
     elif not (animal_key in attrs.keys() and sound_key in attrs.keys() and count_key in attrs.keys()):
         return "Error: missing required attributes"
     try:
