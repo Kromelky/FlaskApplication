@@ -86,8 +86,8 @@ if __name__ == '__main__':
     parser.add_argument('-H', '--host', help=' Change application host ', type=str, default='0.0.0.0')
     parser.add_argument('-p', '--port', help=' Change listening post', type=int,
                         default=80)
-    parser.add_argument('-ssl', '--usessl', help=' Using ssl on selected port', type=bool,
-                        default=False)
+    parser.add_argument('-ssl', '--usessl', help=' Using ssl on selected port', type=str,
+                        default='False')
     parser.add_argument('-sk', '--sslkey', help=' Determinate relative path to SSl Key ', type=str,
                         default="cert/key.pem")
     parser.add_argument('-sc', '--sslcert', help=' Determinate relative path to SSl Certificate ', type=str,
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     ps = Parser('https://emojipedia.org/nature/')
     ps.parseDatabase()
-    if args.usessl:
+    if args.usessl == 'True':
         runHttps()
     else:
         runHttp()
